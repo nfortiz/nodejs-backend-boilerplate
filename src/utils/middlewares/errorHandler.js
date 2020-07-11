@@ -2,7 +2,7 @@
 const boom = require('@hapi/boom');
 
 function wrapErrors(err, req, res, next) {
-  if(!err.isBoom) {
+  if (!err.isBoom) {
     next(boom.badImplementation(err));
   }
 
@@ -11,7 +11,7 @@ function wrapErrors(err, req, res, next) {
 
 function errorHandler(err, req, res, next) {
   const {
-    output: { statusCode, payload }
+    output: { statusCode, payload },
   } = err;
 
   res.status(statusCode);
@@ -20,5 +20,5 @@ function errorHandler(err, req, res, next) {
 
 module.exports = {
   wrapErrors,
-  errorHandler
+  errorHandler,
 };

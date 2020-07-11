@@ -4,9 +4,9 @@
   "description": "A nodejs starter project with express and passport",
   "main": "index.js",
   "scripts": {
-    "dev": "DEBUG=app:* nodemon index",
-    "start": "NODE_ENV=production node index",
-    "lint": "eslint src/ --ext .js --ext .jsx --fix",
+    "dev": "DEBUG=app:* nodemon src/bin/www",
+    "start": "NODE_ENV=production node src/bin/www",
+    "lint": "eslint src/ --ext .js --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -54,11 +54,7 @@
   "nyc": {
     "all": true,
     "include": [
-      "routes",
-      "services",
-      "models",
-      "utils",
-      "lib"
+      "src"
     ]
   }
 }
