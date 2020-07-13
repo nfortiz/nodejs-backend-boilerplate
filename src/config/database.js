@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-const debug = require('debug')('app:database:'),
-  error = require('debug')('app:error');
+const debug = require('debug');
+const logger = debug('app:database'),
+  errorLogger = debug('app:error');
 
 const config = require('./index');
 
@@ -15,8 +16,8 @@ mongoose
     useUnifiedTopology: true,
     useCreateIndex: true,
   })
-  .then(() => debug('DB is connected'))
-  .catch((err) => error(err));
+  .then(() => logger('DB is connected'))
+  .catch((err) => errorLogger(err));
 
 // Create Schemas and models
 require('../components/user/user');

@@ -4,7 +4,8 @@ const boom = require('@hapi/boom');
 const jwt = require('jsonwebtoken');
 
 const UserService = require('./userService');
-const config = require('../config');
+const validateUser = require('./userValidation');
+const config = require('../../config');
 
 // Basic Authentication
 require('../../utils/auth/strategies/basic');
@@ -19,12 +20,12 @@ function authApi(app) {
     passport.authenticate('basic', function (error, user) {
       try {
         if (error || !user) {
-          next(boom.unauthorized());
+          throw boom.unauthorized();
         }
 
         req.login(user, { session: false }, async function (err) {
           if (err) {
-            next(err);
+            return next(err);
           }
           const { _id: id, username, email } = user;
           const payload = {
@@ -37,12 +38,12 @@ function authApi(app) {
             expiresIn: '15m',
           });
 
-          res.cookie('token', token, {
+          /*res.cookie('token', token, {
             httpOnly: !config.isDev,
             secure: !config.isDev,
-          });
+          });*/
 
-          return res.status(200).json({ user: { id, username, email } });
+          return res.status(200).json({ token, user: { id, username, email } });
         });
       } catch (err) {
         next(err);
@@ -50,16 +51,18 @@ function authApi(app) {
     })(req, res, next);
   });
 
-  router.post('/sing-up', async (req, res, next) => {
+  router.post('/sing-up', validateUser, async (req, res, next) => {
     try {
       const { username, email, password } = req.body;
       const existsUser = await userService.getUser({ email });
       if (existsUser) {
-        next(boom.unauthorized());
+        throw boom.unauthorized();
       }
+
       const user = await userService.createUser({
         user: { username, password, email },
       });
+
       res.status(201).json(user);
     } catch (err) {
       next(err);

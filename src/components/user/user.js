@@ -23,4 +23,4 @@ UserSchema.methods.setPassword = async function (password) {
   this.password = await bcrypt.hash(password, 10);
 };
 
-model('User', UserSchema);
+module.exports = model('User', UserSchema);

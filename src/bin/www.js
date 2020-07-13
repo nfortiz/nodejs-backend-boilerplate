@@ -1,8 +1,9 @@
 const app = require('../app');
-const config = require('./config');
+const config = require('../config');
 
-const debug = require('debug')('app:server'),
-  errorLog = require('debug')('app:error');
+const debug = require('debug');
+const logger = debug('app:server'),
+  errorLogger = debug('app:error');
 const http = require('http');
 
 const port = config.port || 3000;
@@ -24,11 +25,11 @@ function onError(error) {
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      errorLog(bind + ' requires elevated privileges');
+      errorLogger(bind + ' requires elevated privileges');
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      errorLog(bind + ' is already in use');
+      errorLogger(bind + ' is already in use');
       process.exit(1);
       break;
     default:
@@ -39,5 +40,5 @@ function onError(error) {
 function onListening() {
   const addr = server.address();
   const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  logger('Listening on ' + bind);
 }
