@@ -1,5 +1,4 @@
-const { model } = require('mongoose');
-const User = model('User');
+const User = require('./user');
 
 class UserService {
   async getUser({ email }) {

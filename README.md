@@ -21,14 +21,17 @@ npm i express cors @hapi/boom express-validator helmet bcrypt jsonwebtoken passp
 
 ### DevDependencies
 ```bash
- npm i -D dotenv nodemon mocha nyc prettier eslint eslint-config-prettier eslint-plugin-prettier husky lint-staged
+ npm i -D dotenv nodemon nyc prettier eslint eslint-config-prettier eslint-plugin-prettier husky lint-staged jest supertest
 ```
+
+- dotenv: it's used for managed the environment varariables.
+- nodemon: util for auto refresh when occurs a change in the code
 
 ### Application Structure
 - `index.js`: This file is the entry point of the application
 - `config/`: The folder contains configuration for environments variables
-- `routes/`: The folder contains the routes definitios for the API
-- `models/`: The folder contains the schema definitions for Mongoose
-
+- `conponents/`: The folder contains the definition for every component  (API definition, test, model, validation).
+- `uitls/`: The folder contains uitls to be used for components (auth strategies, error handler, validations).
+- 
 ## Athentication
 The routes that require authentication need the Authentication header in the Request with a valid Json Web Token(JWT)
